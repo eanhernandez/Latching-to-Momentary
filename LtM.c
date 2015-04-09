@@ -3,6 +3,8 @@
 int main (void)
 {
   wiringPiSetup () ;
+
+  //setting up pins
   pinMode (4, INPUT) ;
   pinMode (0, OUTPUT) ;
   pinMode (2, OUTPUT) ; 
