@@ -8,4 +8,8 @@ $(TARGET) : $(TARGET).c
 clean:
 	rm -f $(TARGET)
 
+release : clean $(TARGET)
+	cp $(TARGET) /home/pi/prod/
 
+
+	
