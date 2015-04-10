@@ -26,6 +26,7 @@ int main( int argc, const char* argv[] )
 	pinMode (4, INPUT) ;
 	pinMode (0, OUTPUT) ;
 	pinMode (2, OUTPUT) ; 
+	pinMode (3, OUTPUT) ;
 
 	//turn on "on" light
 	digitalWrite (2, HIGH);
@@ -35,6 +36,16 @@ int main( int argc, const char* argv[] )
 
 	for (;;)
 	{
+		if (state == 1 )
+		{
+			digitalWrite (3, HIGH);
+		}
+		else
+		{
+			digitalWrite (3, LOW);
+		}
+
+
 		if (digitalRead(4)!=state)
 		{
 			sendMomentarySignal(momentaryDelay);
