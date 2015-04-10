@@ -1,37 +1,54 @@
 #include <wiringPi.h>
 #include <stdio.h>
-int main (void)
-{
-  wiringPiSetup () ;
+#include <stdlib.h>
 
-  //setting up pins
-  pinMode (4, INPUT) ;
-  pinMode (0, OUTPUT) ;
-  pinMode (2, OUTPUT) ; 
-  digitalWrite (2, HIGH);
-  int state=0;
-  int momentaryDelay = 20;
-  int loopDelay = 1;
-  for (;;)
-  {
-	if (digitalRead(4)!=state)
+void sendMomentarySignal(int momentaryDelay);
+
+int main( int argc, const char* argv[] )
+{
+        int state=0;
+        int momentaryDelay = 0;
+        int loopDelay = 0;
+
+	// checking for correct number of arguments
+        if (argc==3)
+        {
+                momentaryDelay = atoi(argv[1]);
+                loopDelay = atoi(argv[2]);
+        }
+        else
+        {
+                return 1;
+        }
+
+	//setting up pins
+        wiringPiSetup () ;
+	pinMode (4, INPUT) ;
+	pinMode (0, OUTPUT) ;
+	pinMode (2, OUTPUT) ; 
+
+	//turn on "on" light
+	digitalWrite (2, HIGH);
+
+	//detect initial latch state
+	state = digitalRead(4);
+
+	for (;;)
 	{
-		if (state==0)
+		if (digitalRead(4)!=state)
 		{
-			digitalWrite (0, HIGH) ; 
-			delay (momentaryDelay) ;
-			digitalWrite (0,  LOW) ; 
-			state=1;
-		}
-		else
-		{
-                        digitalWrite (0, HIGH) ; 
-			delay (momentaryDelay) ;
-                        digitalWrite (0,  LOW) ;
-			state=0;
-		}
-	}	
-  	delay(loopDelay);
-  }
-  return 0 ;
+			sendMomentarySignal(momentaryDelay);
+			state = state ^ 1;
+		}	
+		delay(loopDelay) ;
+	}
+	return 0 ;
 }
+
+void sendMomentarySignal(int momentaryDelay)
+{
+        digitalWrite (0, HIGH) ;
+        delay (momentaryDelay) ;
+        digitalWrite (0,  LOW) ;
+}
+
