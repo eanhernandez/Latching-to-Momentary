@@ -49,7 +49,8 @@ int main( int argc, const char* argv[] )
 		{						//
 			sendMomentarySignal(momentaryDelay);	// fire momentary signal
 			state = state ^ 1;			// flip state to opposite of what it was
-		}						//
+		}
+		
 		delay(loopDelay) ;				// wait a bit
 	}
 	return 0 ;
