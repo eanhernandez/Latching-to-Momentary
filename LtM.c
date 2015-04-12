@@ -8,7 +8,7 @@ int main( int argc, const char* argv[] )
 {
         int state=0;		// tracks state of latching circuit, 1 = on and 0 = off
         int momentaryDelay = 0;	// how long in ms to charge the relay which controls the momentary circuit
-        int loopDelay = 0;	// how to wait in ms before checking for a latch
+        int loopDelay = 0;	// how long in ms to wait before checking for a latch
 
 	// checking for correct number of arguments
         if (argc==3)
