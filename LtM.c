@@ -6,6 +6,7 @@ void sendMomentarySignal(int momentaryDelay);
 void turnOnLED(int LEDId);
 void turnOffLED(int LEDId);
 int latchIsPresent(int latchMonitor);
+void setLatchLED(int latchState, int latchLED);
 
 int main( int argc, const char* argv[] )
 {
@@ -42,19 +43,11 @@ int main( int argc, const char* argv[] )
 
 	for (;;)
 	{
-		if (latchState)					// if the state shows the latch as on
-		{						//
-			turnOnLED(latchLED);			// turn on "latch" LED
-		}						//
-		else						//
-		{						//
-			turnOffLED(latchLED);			// or if not, turn off "latch" LED 
-		}
-
 		if (latchIsPresent(latchMonitor)!=latchState)	// if there is change in latch: on to off, or off to on
 		{						//
-			sendMomentarySignal(momentaryDelay);	// fire momentary signal
 			latchState ^= 1;			// flip state to opposite of what it was
+			setLatchLED(latchState, latchLED);	// change the latch indicator to reflect the new state
+			sendMomentarySignal(momentaryDelay);    // fire momentary signal
 		}
 		
 		delay(loopDelay) ;				// wait a bit
@@ -81,4 +74,16 @@ void turnOffLED(int LEDId)
 int latchIsPresent(int latchMonitor)
 {
 	return digitalRead(latchMonitor);
+}
+
+void setLatchLED(int latchState, int latchLED)
+{
+	if (latchState)					// if the state shows the latch as on
+	{						//
+		turnOnLED(latchLED);			// turn on "latch" LED
+	}						//
+	else						//
+	{						//
+		turnOffLED(latchLED);			// or if not, turn off "latch" LED 
+	}
 }
